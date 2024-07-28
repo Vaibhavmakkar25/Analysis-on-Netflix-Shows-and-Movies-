@@ -177,17 +177,6 @@ AND t.tmdb_score > 8.0
 GROUP BY c.name
 ORDER BY num_highly_rated_titles DESC;
 
--- Which actors/actresses played the same character in multiple movies or TV shows? 
-SELECT c.name AS actor_actress, 
-c.character, 
-COUNT(DISTINCT t.title) AS num_titles
-FROM shows_movies.credits AS c
-JOIN shows_movies.titles AS t 
-ON c.id = t.id
-WHERE c.role = 'actor' OR c.role = 'actress'
-GROUP BY c.name, c.character
-HAVING COUNT(DISTINCT t.title) > 1;
-
 -- What were the top 3 most common genres?
 SELECT t.genres, 
 COUNT(*) AS genre_count
@@ -197,16 +186,7 @@ GROUP BY t.genres
 ORDER BY genre_count DESC
 LIMIT 3;
 
--- Average IMDB score for leading actors/actresses in movies or shows 
-SELECT c.name AS actor_actress, 
-ROUND(AVG(t.imdb_score),2) AS average_imdb_score
-FROM shows_movies.credits AS c
-JOIN shows_movies.titles AS t 
-ON c.id = t.id
-WHERE c.role = 'actor' OR c.role = 'actress'
-AND c.character = 'leading role'
-GROUP BY c.name
-ORDER BY average_imdb_score DESC;
+
 
 
 
